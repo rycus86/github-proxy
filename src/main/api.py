@@ -6,28 +6,6 @@ class ApiClient(object):
     def __init__(self, username=None, password=None, token=None):
         self._api = GitHub(username=username, password=password, token=token)
 
-    @staticmethod
-    def _is_successful(status):
-        return status / 100 == 2
-
-    def _get_links(self):
-        headers = self._api.getheaders()
-
-        for key, value in headers:
-            if key.lower() == 'link':
-                return value
-
-    def _get_link(self, rel):
-        links = self._get_links()
-        if links:
-            for match in re.finditer(r'<([^>]+)>; rel="%s"' % rel, links, flags=re.IGNORECASE):
-                return match.group(1)
-
-    def _get_page_number(self, link_rel):
-        link = self._get_link(link_rel)
-        if link:
-            return int(re.sub(r'.*?page=([0-9]+)', r'\1', link, flags=re.IGNORECASE))
-
     def list_repos(self, username):
         repos = list()
 
@@ -40,6 +18,9 @@ class ApiClient(object):
                 repos.extend(response)
                 next_page = self._get_page_number('next')
 
+            else:
+                break
+
         return repos
 
     def get_readme(self, owner, repository):
@@ -51,6 +32,7 @@ class ApiClient(object):
 
     def get_commit_stats(self, owner, repository):
         status, first_page = self._api.repos[owner][repository].commits.get()
+
         if self._is_successful(status) and first_page:
             last_commit = first_page[0].get('commit', dict())
 
@@ -77,3 +59,27 @@ class ApiClient(object):
                     'message': message
                 }
             }
+
+    @staticmethod
+    def _is_successful(status):
+        return status / 100 == 2
+
+    def _get_links(self):
+        headers = self._api.getheaders()
+
+        for key, value in headers:
+            if key.lower() == 'link':
+                return value
+
+    def _get_link(self, rel):
+        links = self._get_links()
+
+        if links:
+            for match in re.finditer(r'<([^>]+)>; rel="%s"' % rel, links, flags=re.IGNORECASE):
+                return match.group(1)
+
+    def _get_page_number(self, link_rel):
+        link = self._get_link(link_rel)
+
+        if link:
+            return int(re.sub(r'.*?page=([0-9]+)', r'\1', link, flags=re.IGNORECASE))

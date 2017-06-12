@@ -8,9 +8,16 @@ class TestApiClient(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        if os.path.exists('github_token.txt'):
-            with open('github_token.txt') as token_file:
-                TestApiClient.api = ApiClient(token=token_file.read())
+        TestApiClient.api = ApiClient(token=os.environ.get('GITHUB_TOKEN', TestApiClient._get_cached_token()))
+
+    @staticmethod
+    def _get_cached_token():
+        directory = os.path.dirname(__file__) or '.'
+        path = os.path.join(os.path.abspath(directory), '../../github_token.txt')
+
+        if os.path.exists(path):
+            with open(path) as token_file:
+                return token_file.read()
 
     def test_list_repos(self):
         repos = self.api.list_repos('rycus86')
@@ -22,7 +29,6 @@ class TestApiClient(unittest.TestCase):
             for expected in ('name', 'full_name', 'owner', 'html_url', 'description', 'fork',
                              'created_at', 'updated_at', 'pushed_at', 'language', 'homepage',
                              'stargazers_count', 'watchers_count', 'open_issues_count'):
-
                 self.assertIn(expected, repo, msg='The key %s is not found in the repo details' % expected)
 
     def test_readme(self):
@@ -45,7 +51,3 @@ class TestApiClient(unittest.TestCase):
         self.assertIn('author', latest)
         self.assertIn('date', latest)
         self.assertIn('message', latest)
-
-
-if __name__ == '__main__':
-    unittest.main()
