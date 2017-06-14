@@ -15,6 +15,7 @@ script:
   # python tests
   - PYTHONPATH=src/main coverage run --source=src/main -m unittest discover -s src/test -v
 after_success:
+  # coverage reports
   - coveralls
   - python -m coverage report -m
 env:
