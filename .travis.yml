@@ -1,11 +1,23 @@
 language: python
 python:
-- '2.7'
+  - '2.7'
+sudo:
+  - required
+services:
+  - docker
 install:
   - pip install -r requirements.txt
   - pip install coveralls
 script:
+  # docker build
+  - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+  - docker build -t rycus86/github-proxy:$DOCKER_TAG -f $DOCKERFILE .
+  # python tests
   - PYTHONPATH=src/main coverage run --source=src/main -m unittest discover -s src/test -v
 after_success:
   - coveralls
   - python -m coverage report -m
+env:
+  matrix:
+  - DOCKER_TAG=latest DOCKERFILE=Dockerfile
+  - DOCKER_TAG=armhf  DOCKERFILE=Dockerfile.armhf
