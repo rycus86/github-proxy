@@ -11,13 +11,22 @@ install:
 script:
   # docker build
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-  - docker build -t rycus86/github-proxy:$DOCKER_TAG -f $DOCKERFILE .
+  - docker build -t github-proxy:$DOCKER_TAG -f $DOCKERFILE .
   # python tests
   - PYTHONPATH=src/main coverage run --source=src/main -m unittest discover -s src/test -v
 after_success:
   # coverage reports
   - coveralls
   - python -m coverage report -m
+  # push docker image
+  - >
+    if [ "$DOCKER_PUSH" == "yes" ]; then
+      docker login -u="rycus86" -p="$DOCKER_PASSWORD"
+      docker tag github-proxy:$DOCKER_TAG rycus86/github-proxy:$DOCKER_TAG
+      docker push rycus86/github-proxy:$DOCKER_TAG
+    else
+      echo 'Not pushing to Docker Hub'
+    fi
 env:
   matrix:
   - DOCKER_TAG=latest DOCKERFILE=Dockerfile
