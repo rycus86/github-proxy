@@ -9,4 +9,3 @@ script:
 after_success:
   - coveralls
   - python -m coverage report -m
-script: PYTHONPATH=src/main python -m unittest discover -v -s src/test
