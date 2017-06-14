@@ -51,3 +51,17 @@ class TestApiClient(unittest.TestCase):
         self.assertIn('author', latest)
         self.assertIn('date', latest)
         self.assertIn('message', latest)
+
+    def test_pagination(self):
+        commits = self.api.get_commit_stats('rycus86', 'Kundera')
+
+        self.assertIsNotNone(commits)
+        self.assertGreater(len(commits), 0)
+        self.assertGreater(commits.get('total'), 100)
+
+        latest = commits.get('latest')
+
+        self.assertIsNotNone(latest, msg='Latest commit details not found')
+        self.assertIn('author', latest)
+        self.assertIn('date', latest)
+        self.assertIn('message', latest)
