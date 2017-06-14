@@ -29,8 +29,6 @@ def list_repos(username):
 
         logger.info('Processing repo: %s/%s', username, repository_name)
 
-        print repo
-
         details = {
             key: repo.get(key) for key in
             ('name', 'full_name', 'html_url', 'description', 'fork',
