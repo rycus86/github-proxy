@@ -8,4 +8,5 @@ script:
   - PYTHONPATH=src/main coverage run --source=src/main -m unittest discover -s src/test -v
 after_success:
   - coveralls
+  - python -m coverage report -m
 script: PYTHONPATH=src/main python -m unittest discover -v -s src/test
