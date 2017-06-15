@@ -11,6 +11,7 @@ install:
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 script:
   # docker build
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
@@ -33,8 +34,6 @@ after_success:
       echo 'Not pushing to Docker Hub'
     fi
 env:
-  global:
-  - CC_TEST_REPORTER_ID=306d925ec2e2905f19d96f225b6e2a7600c0ac8e88d1a2409bf0ad729eeafd1f
   matrix:
   - DOCKER_TAG=latest DOCKERFILE=Dockerfile
   - DOCKER_TAG=armhf  DOCKERFILE=Dockerfile.armhf DOCKER_PUSH=yes
