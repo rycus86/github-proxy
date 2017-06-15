@@ -2,3 +2,4 @@ github_token.txt
 .idea/
 *.pyc
 .coverage
+coverage.xml
