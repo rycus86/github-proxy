@@ -1,20 +1,10 @@
-import os
 import unittest
-from api import ApiClient
+from unittest_helper import get_api_client
 
 
 class ApiTest(unittest.TestCase):
     def setUp(self):
-        self.api = ApiClient(token=os.environ.get('GITHUB_TOKEN', self._get_cached_token()))
-
-    @staticmethod
-    def _get_cached_token():
-        directory = os.path.dirname(__file__) or '.'
-        path = os.path.join(os.path.abspath(directory), '../../github_token.txt')
-
-        if os.path.exists(path):
-            with open(path) as token_file:
-                return token_file.read()
+        self.api = get_api_client()
 
     def test_list_repos(self):
         repos = self.api.list_repos('rycus86')

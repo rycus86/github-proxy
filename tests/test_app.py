@@ -1,6 +1,6 @@
-import os
 import json
 import unittest
+from unittest_helper import get_api_client
 
 import app
 
@@ -8,20 +8,11 @@ import app
 class AppTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        app.api = app.ApiClient(token=os.environ.get('GITHUB_TOKEN', AppTest._get_cached_token()))
+        app.api = get_api_client()
 
     def setUp(self):
         app.app.testing = True
         self.client = app.app.test_client()
-
-    @staticmethod
-    def _get_cached_token():
-        directory = os.path.dirname(__file__) or '.'
-        path = os.path.join(os.path.abspath(directory), '../../github_token.txt')
-
-        if os.path.exists(path):
-            with open(path) as token_file:
-                return token_file.read()
 
     def test_list_repos(self):
         response = self.client.get('/repos/rycus86')
