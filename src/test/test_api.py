@@ -4,7 +4,6 @@ from api import ApiClient
 
 
 class ApiTest(unittest.TestCase):
-
     def setUp(self):
         self.api = ApiClient(token=os.environ.get('GITHUB_TOKEN', self._get_cached_token()))
 

@@ -6,7 +6,6 @@ import app
 
 
 class AppTest(unittest.TestCase):
-
     @classmethod
     def setUpClass(cls):
         app.api = app.ApiClient(token=os.environ.get('GITHUB_TOKEN', AppTest._get_cached_token()))
