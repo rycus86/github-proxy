@@ -3,12 +3,10 @@ import unittest
 from api import ApiClient
 
 
-class TestApiClient(unittest.TestCase):
-    api = ApiClient()
+class ApiTest(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        TestApiClient.api = ApiClient(token=os.environ.get('GITHUB_TOKEN', TestApiClient._get_cached_token()))
+    def setUp(self):
+        self.api = ApiClient(token=os.environ.get('GITHUB_TOKEN', self._get_cached_token()))
 
     @staticmethod
     def _get_cached_token():
