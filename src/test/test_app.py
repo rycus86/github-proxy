@@ -9,7 +9,7 @@ class AppTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        app.api = ApiClient(token=os.environ.get('GITHUB_TOKEN', self._get_cached_token()))
+        app.api = app.ApiClient(token=os.environ.get('GITHUB_TOKEN', self._get_cached_token()))
 
     def setUp(self):
         app.app.testing = True
