@@ -2,10 +2,12 @@ import os
 import logging
 from flask import Flask, jsonify, make_response
 from flask_cache import Cache
+from flask_cors import CORS
 from api import ApiClient
 
 app = Flask(__name__)
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
+CORS(app, origins=os.environ.get('CORS_ORIGINS', 'http://localhost:?.*').split(','), methods='GET')
 
 api = ApiClient(username=os.environ.get('GITHUB_USERNAME'),
                 password=os.environ.get('GITHUB_PASSWORD'),
