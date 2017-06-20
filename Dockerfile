@@ -3,7 +3,6 @@ FROM alpine
 RUN apk add --no-cache python py2-pip ca-certificates
 
 ADD requirements.txt /tmp/requirements.txt
-
 RUN pip install -r /tmp/requirements.txt
 
 ADD src /app
