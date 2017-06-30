@@ -72,7 +72,7 @@ while the *ARM* builds are uploaded from [Travis](https://travis-ci.org/rycus86/
 
 To run it:
 ```shell
-docker run -d --name="github-proxy" -p 5000:5000           \`
+docker run -d --name="github-proxy" -p 5000:5000           \
   -e GITHUB_USERNAME='user' -e GITHUB_PASSWORD='pass'      \
   -e CORS_ORIGINS='http://site.example.com,*.website.com'  \
   rycus86/github-proxy:latest
