@@ -63,9 +63,12 @@ List of endpoints:
 The web application is built as a *Docker* image too based on *Alpine Linux*
 for 3 architectures with the following tags:
 
-- `latest`: for *x86* hosts
-- `armhf`: for *32-bits ARM* hosts
-- `aarch64`: for *64-bits ARM* hosts
+- `latest`: for *x86* hosts  
+  [![Layers](https://images.microbadger.com/badges/image/rycus86/github-proxy.svg)](https://microbadger.com/images/rycus86/github-proxy "Get your own image badge on microbadger.com")
+- `armhf`: for *32-bits ARM* hosts  
+  [![Layers](https://images.microbadger.com/badges/image/rycus86/github-proxy:armhf.svg)](https://microbadger.com/images/rycus86/github-proxy:armhf "Get your own image badge on microbadger.com")
+- `aarch64`: for *64-bits ARM* hosts  
+  [![Layers](https://images.microbadger.com/badges/image/rycus86/github-proxy:aarch64.svg)](https://microbadger.com/images/rycus86/github-proxy:aarch64 "Get your own image badge on microbadger.com")
 
 `latest` is auto-built on [Docker Hub](https://hub.docker.com/r/rycus86/github-proxy)
 while the *ARM* builds are uploaded from [Travis](https://travis-ci.org/rycus86/github-proxy).
