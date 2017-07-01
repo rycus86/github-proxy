@@ -32,7 +32,7 @@ class AppTest(unittest.TestCase):
                              'stargazers_count', 'watchers_count', 'open_issues_count'):
                 self.assertIn(expected, repo, msg='The key %s is not found in the repo details' % expected)
 
-    def test_get_readme(self):
+    def test_get_readme_html(self):
         response = self.client.get('/repos/rycus86/docker-travis-cli/readme')
 
         self.assertEqual(response.status_code, 200)
@@ -44,6 +44,23 @@ class AppTest(unittest.TestCase):
         self.assertIsNotNone(readme)
         self.assertIn('travis-cli', readme)
         self.assertIn('<h1>', readme)
+
+        alternative_response = self.client.get('/repos/rycus86/docker-travis-cli/readme/html')
+
+        self.assertEqual(response.data, alternative_response.data)
+
+    def test_get_readme_raw(self):
+        response = self.client.get('/repos/rycus86/docker-travis-cli/readme/raw')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('text/plain', response.content_type)
+        self.assertEqual(response.charset, 'utf-8')
+
+        readme = response.data
+
+        self.assertIsNotNone(readme)
+        self.assertIn('# travis-cli', readme)
+        self.assertIn('### Usage', readme)
 
     def test_get_commit_stats(self):
         response = self.client.get('/repos/rycus86/docker-travis-cli/commit-stats')

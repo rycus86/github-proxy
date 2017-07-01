@@ -71,7 +71,7 @@ def get_readme_raw(username, repository):
     readme = api.get_readme_raw(username, repository)
 
     if readme:
-        return readme
+        return readme, 200, {'Content-Type': 'text/plain'}
 
     else:
         return make_response('', 404, )

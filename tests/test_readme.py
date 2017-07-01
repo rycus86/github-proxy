@@ -11,12 +11,10 @@ class ReadmeTest(unittest.TestCase):
             return input_file.read()
 
     def get_readme(self):
-        path = os.path.join(os.path.dirname(__name__), '../README.md')
-        return self.get_file_contents(path)
+        return self.get_file_contents('README.md')
 
     def get_source(self, filename):
-        path = os.path.join(os.path.dirname(__name__), '../src', filename)
-        return self.get_file_contents(path)
+        return self.get_file_contents('src/%s' % filename)
 
     def test_app_endpoints(self):
         readme = self.get_readme()

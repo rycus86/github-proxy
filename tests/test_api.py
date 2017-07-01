@@ -18,12 +18,19 @@ class ApiTest(unittest.TestCase):
                              'stargazers_count', 'watchers_count', 'open_issues_count'):
                 self.assertIn(expected, repo, msg='The key %s is not found in the repo details' % expected)
 
-    def test_readme(self):
-        readme = self.api.get_readme('rycus86', 'docker-travis-cli')
+    def test_readme_html(self):
+        readme = self.api.get_readme_html('rycus86', 'docker-travis-cli')
 
         self.assertIsNotNone(readme)
         self.assertIn('travis-cli', readme)
         self.assertIn('<h1>', readme)
+
+    def test_readme_raw(self):
+        readme = self.api.get_readme_raw('rycus86', 'docker-travis-cli')
+
+        self.assertIsNotNone(readme)
+        self.assertIn('# travis-cli', readme)
+        self.assertIn('### Usage', readme)
 
     def test_commit_stats(self):
         commits = self.api.get_commit_stats('rycus86', 'docker-travis-cli')
