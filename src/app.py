@@ -49,11 +49,26 @@ def list_repos(username):
 
 
 @app.route('/repos/<username>/<repository>/readme')
+@app.route('/repos/<username>/<repository>/readme/html')
 @cache.memoize(timeout=30 * 60)
-def get_readme(username, repository):
-    logger.info('Fetching readme for %s/%s', username, repository)
+def get_readme_html(username, repository):
+    logger.info('Fetching HTML readme for %s/%s', username, repository)
 
-    readme = api.get_readme(username, repository)
+    readme = api.get_readme_html(username, repository)
+
+    if readme:
+        return readme
+
+    else:
+        return make_response('', 404, )
+
+
+@app.route('/repos/<username>/<repository>/readme/raw')
+@cache.memoize(timeout=30 * 60)
+def get_readme_raw(username, repository):
+    logger.info('Fetching raw readme for %s/%s', username, repository)
+
+    readme = api.get_readme_raw(username, repository)
 
     if readme:
         return readme

@@ -28,7 +28,9 @@ The `api.ApiClient` class wraps endpoints with the following methods:
 
 - `list_repos(username)`: returns a list of *all* repositories for the *GitHub* user
   identified by `username` - regardless of pagination (e.g. from all pages)
-- `get_readme(owner, repository)`: returns the *HTML README* of the
+- `get_readme_html(owner, repository)`: returns the *HTML README* of the
+  `owner/repository` *GitHub* repository
+- `get_readme_raw(owner, repository)`: returns the *raw plain text README* of the
   `owner/repository` *GitHub* repository
 - `get_commit_stats(owner, repository)`: returns a dictionary containing the total number
   of commits in the `owner/repository` *GitHub* repository plus the author, date and message
@@ -52,11 +54,14 @@ List of endpoints:
 - `/repos/<username>`: lists the repositories of the `<username>` *GitHub* user  
   This will be a list of objects with a reduced set of properties from
   `ApiClient.list_repos(<username>)`
-- `/repos/<username>/<repository>/readme`: an *HTML* endpoint returning the rendered *README*
-  markup for the `<username>/<repository>` *GitHub* repository
+- `/repos/<username>/<repository>/readme` or  
+  `/repos/<username>/<repository>/readme/html`: an *HTML* endpoint returning the 
+  rendered *README* markup for the `<username>/<repository>` *GitHub* repository
+- `/repos/<username>/<repository>/readme/raw`: an *plain text* endpoint returning the 
+  raw *README* contents for the `<username>/<repository>` *GitHub* repository
 - `/repos/<username>/<repository>/commit-stats`: returns the commit statistics for the
   `<username>/<repository>` *GitHub* repository  
-  The object is the same as the return value of `ApiClient.get_commit_stats)`
+  The object is the same as the return value of `ApiClient.get_commit_stats(owner, repository)`
 
 ## Docker
 

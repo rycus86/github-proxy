@@ -1,4 +1,5 @@
 import re
+import base64
 from agithub.GitHub import GitHub
 
 
@@ -23,12 +24,18 @@ class ApiClient(object):
 
         return repos
 
-    def get_readme(self, owner, repository):
+    def get_readme_html(self, owner, repository):
         headers = {'accept': 'application/vnd.github.v3.html'}
         status, response = self._api.repos[owner][repository].readme.get(headers=headers)
 
         if self._is_successful(status):
             return response
+
+    def get_readme_raw(self, owner, repository):
+        status, response = self._api.repos[owner][repository].readme.get()
+
+        if self._is_successful(status):
+            return base64.b64decode(response.get('content'))
 
     def get_commit_stats(self, owner, repository):
         status, first_page = self._api.repos[owner][repository].commits.get()
