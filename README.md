@@ -93,6 +93,7 @@ services:
 
   github-proxy:
     image: rycus86/github-proxy:armhf
+    read_only: true
     expose:
       - "5000"
     restart: always
