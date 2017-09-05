@@ -88,4 +88,4 @@ def get_commit_stats(username, repository):
 if __name__ == '__main__':  # pragma: no cover
     app.run(host=os.environ.get('HTTP_HOST', '127.0.0.1'),
             port=int(os.environ.get('HTTP_PORT', '5000')),
-            debug=False)
+            threaded=True, debug=False)
